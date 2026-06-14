@@ -2,15 +2,17 @@
 
 Place MRI images in class-specific folders before preprocessing.
 
-For a benign/malignant dataset:
+The original local dataset used for this project contains one usable two-class copy:
 
 ```text
-data/raw/
-├── benign/
-└── malignant/
+Brain_Tumor_Dataset/
+├── no/   # 98 images
+└── yes/  # 155 images
 ```
 
-For the original notebook dataset:
+The download also contains a duplicated nested copy at `brain_tumor_dataset/no` and `brain_tumor_dataset/yes`. Use only one copy to avoid training and testing on duplicate images.
+
+For this repository, copy one dataset copy into:
 
 ```text
 data/raw/
@@ -18,6 +20,13 @@ data/raw/
 └── yes/
 ```
 
-The preprocessing command creates `data/processed/train`, `data/processed/val`, and `data/processed/test`.
-Raw and processed image files are ignored by Git to avoid committing medical images or large datasets.
+The code can also work with other binary class names:
 
+```text
+data/raw/
+├── benign/
+└── malignant/
+```
+
+The preprocessing command creates `data/processed/train`, `data/processed/val`, and `data/processed/test`.
+Raw and processed image files are ignored by Git to avoid committing medical images or datasets with unclear redistribution rights.

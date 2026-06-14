@@ -28,9 +28,8 @@ Class names are inferred from folder names, so the trained model reports labels 
 ```text
 brain-tumor-mri-classification/
 ├── app.py
+├── DATASET.md
 ├── data/
-│   ├── raw/
-│   ├── processed/
 │   └── README.md
 ├── models/
 │   └── README.md
@@ -62,24 +61,43 @@ pip install -r requirements.txt
 
 ## Dataset Format
 
+The original project used a two-class MRI dataset with the following class folders:
+
+```text
+Brain_Tumor_Dataset/
+├── no/   # MRI images without tumor
+└── yes/  # MRI images with tumor
+```
+
+Local dataset inventory:
+
+- `98` no-tumor images
+- `155` tumor images
+- `253` unique images in the usable class-folder copy
+- image formats: `.jpg`, `.jpeg`, `.png`
+
+The local download also contains a duplicated nested copy at `brain_tumor_dataset/no` and `brain_tumor_dataset/yes`, so only one copy should be used for training.
+
+Raw images are not committed to this repository because medical-image datasets can have licensing and redistribution restrictions. To reproduce the project, place the dataset locally under `data/raw/`.
+
 Place images in class folders:
 
 ```text
 data/raw/
-├── benign/
+├── no/
 │   ├── image_001.jpg
 │   └── image_002.jpg
-└── malignant/
+└── yes/
     ├── image_001.jpg
     └── image_002.jpg
 ```
 
-For the original notebook dataset, use:
+The code can also work with other binary class names such as:
 
 ```text
 data/raw/
-├── no/
-└── yes/
+├── benign/
+└── malignant/
 ```
 
 ## Usage
@@ -156,4 +174,3 @@ Python • TensorFlow/Keras • CNN • Transfer Learning
 ```
 
 Replace the final bullet or add the measured test accuracy only after `results/metrics.json` is generated.
-
