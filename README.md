@@ -1,28 +1,26 @@
 # Brain Tumor MRI Classification
 
-Beginner-friendly brain MRI image classification project using a Convolutional Neural Network (CNN) in TensorFlow/Keras.
+Brain MRI image classification project built with a Convolutional Neural Network (CNN) using TensorFlow/Keras.
 
 The model classifies MRI images into two classes:
 
 - `no`: no tumor
 - `yes`: tumor
 
-> This is a learning project and is not a medical diagnostic tool.
+> This project is for learning and portfolio demonstration only. It is not a medical diagnostic tool.
 
-## Project Summary
+## Overview
 
-The original work was done in a Jupyter/Colab notebook. This repository keeps the same simple CNN idea, but organizes the code so it is easier for recruiters to read:
+This project implements a simple end-to-end machine learning workflow for binary MRI image classification:
 
-- dataset preprocessing
-- CNN model definition
-- training script
-- evaluation script
-- single-image prediction
-- simple Gradio demo app
+- preprocessing MRI images into train, validation, and test folders
+- building a CNN model in TensorFlow/Keras
+- training the model with validation monitoring
+- evaluating the model on a test set
+- running single-image prediction
+- launching a small Gradio demo app
 
-The project uses class folders, so labels are automatically taken from the folder names.
-
-## Repository Structure
+## Project Structure
 
 ```text
 brain-tumor-mri-classification/
@@ -32,9 +30,6 @@ brain-tumor-mri-classification/
 │   └── README.md
 ├── models/
 │   └── README.md
-├── notebooks/
-│   ├── original_teacher_notebook.ipynb
-│   └── NOTEBOOK_ANALYSIS.md
 ├── results/
 │   └── README.md
 ├── src/
@@ -49,17 +44,9 @@ brain-tumor-mri-classification/
 └── requirements.txt
 ```
 
-## Setup
+## Dataset
 
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-```
-
-## Dataset Format
-
-The original dataset used this structure:
+The dataset used for development has this structure:
 
 ```text
 Brain_Tumor_Dataset/
@@ -67,18 +54,16 @@ Brain_Tumor_Dataset/
 └── yes/  # MRI images with tumor
 ```
 
-Local dataset inventory:
+Dataset inventory:
 
 - `98` no-tumor images
 - `155` tumor images
-- `253` unique images in the usable class-folder copy
-- image formats: `.jpg`, `.jpeg`, `.png`
+- `253` usable images
+- supported formats: `.jpg`, `.jpeg`, `.png`
 
-The local download also contains a duplicated nested copy at `brain_tumor_dataset/no` and `brain_tumor_dataset/yes`, so only one copy should be used for training.
+Raw MRI images are not committed to this repository because medical-image datasets can have licensing or redistribution restrictions. To reproduce the project, place the images locally under `data/raw/`.
 
-Raw images are not committed to this repository because medical-image datasets can have licensing and redistribution restrictions. To reproduce the project, place the dataset locally under `data/raw/`.
-
-Place images in class folders:
+Expected local format:
 
 ```text
 data/raw/
@@ -90,17 +75,17 @@ data/raw/
     └── image_002.jpg
 ```
 
-The code can also work with other binary class names such as:
+## Setup
 
-```text
-data/raw/
-├── benign/
-└── malignant/
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ## Usage
 
-Create reproducible train/validation/test splits:
+Create train, validation, and test splits:
 
 ```bash
 python -m src.data_preprocessing --raw-dir data/raw --output-dir data/processed
@@ -112,7 +97,7 @@ Train the CNN:
 python -m src.train --epochs 25 --batch-size 16
 ```
 
-Evaluate on the held-out test split:
+Evaluate the trained model:
 
 ```bash
 python -m src.evaluate --model-path models/best_model.keras
@@ -124,44 +109,35 @@ Predict a single MRI image:
 python -m src.predict --image-path path/to/mri.jpg --model-path models/best_model.keras
 ```
 
-Launch the demo app:
+Launch the Gradio app:
 
 ```bash
 python app.py --model-path models/best_model.keras
 ```
 
-## CNN Model
+## Model
 
-The CNN is based on the original notebook:
+The CNN uses:
 
-- image normalization is inside the model through a `Rescaling` layer
-- convolution blocks use batch normalization, max pooling, and dropout
-- final layer uses sigmoid activation for binary tumor/no-tumor classification
-- training uses binary cross-entropy and Adam optimizer
+- image resizing to `128x128`
+- normalization with a Keras `Rescaling` layer
+- convolution layers for feature extraction
+- batch normalization, max pooling, and dropout
+- dense layer for classification
+- sigmoid output for binary prediction
 
-Small data augmentation is included during training to help the model generalize better.
+## Results
 
-## Evaluation
-
-Running `src.evaluate` writes the following artifacts to `results/`:
+Evaluation outputs are saved in the `results/` folder:
 
 - `metrics.json`
 - `confusion_matrix.png`
 - `roc_curve.png`
+- `training_curves.png`
 
-Because trained weights are not included, this repository does not hard-code an accuracy claim. Train the model on the dataset, run evaluation, and then use the generated metrics from `results/metrics.json`.
+Trained model files are saved in the `models/` folder:
 
-## Resume Alignment
+- `best_model.keras`
+- `final_model.keras`
+- `class_names.json`
 
-Suggested resume wording after you train and evaluate this repo:
-
-```text
-Brain Tumor MRI Classification — Medical Image Classification
-Python • TensorFlow/Keras • CNN
-
-- Built a CNN-based MRI image classifier to detect tumor vs no-tumor images.
-- Added preprocessing, train/validation/test split creation, model training, and test evaluation scripts.
-- Created a simple Gradio demo for single-image prediction.
-```
-
-Replace the final bullet or add the measured test accuracy only after `results/metrics.json` is generated.

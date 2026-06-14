@@ -11,7 +11,7 @@ Brain_Tumor_Dataset/
 └── yes/      # duplicate copy, 155 images
 ```
 
-Use only one copy for training. The original notebook used the direct `yes` and `no` folders.
+Use only one copy for training. This project uses the direct `yes` and `no` folders.
 
 ## Class Meaning
 
@@ -22,7 +22,7 @@ Use only one copy for training. The original notebook used the direct `yes` and 
 
 The raw MRI images are intentionally not uploaded to GitHub. Even when a dataset is small enough for GitHub, medical-image datasets may have licensing or redistribution restrictions. Keeping raw data out of the repository is the safer professional choice.
 
-Recruiters can still review the complete ML workflow through the source code, notebook analysis, preprocessing pipeline, training script, evaluation script, prediction script, and Gradio app.
+The repository includes the complete ML workflow through the source code, preprocessing pipeline, training script, evaluation script, prediction script, and Gradio app.
 
 ## Reproducing Locally
 

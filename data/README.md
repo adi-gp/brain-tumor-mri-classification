@@ -2,7 +2,7 @@
 
 Place MRI images in class-specific folders before preprocessing.
 
-The original local dataset used for this project contains one usable two-class copy:
+The dataset used for this project contains one usable two-class copy:
 
 ```text
 Brain_Tumor_Dataset/

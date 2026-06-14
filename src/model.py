@@ -44,7 +44,7 @@ def build_cnn(
     learning_rate: float = 1e-3,
     use_augmentation: bool = True,
 ) -> Model:
-    """CNN inspired by the original notebook, with normalization baked into the model."""
+    """Build the CNN used for MRI tumor classification."""
     inputs = Input(shape=(*image_size, 3), name="mri_image")
     x = Rescaling(1.0 / 255, name="rescale")(inputs)
     if use_augmentation:
@@ -67,7 +67,7 @@ def build_cnn(
     x = Dropout(0.5)(x)
     outputs = Dense(1, activation="sigmoid", name="tumor_probability")(x)
 
-    return compile_binary_model(Model(inputs=inputs, outputs=outputs, name="notebook_style_cnn"), learning_rate)
+    return compile_binary_model(Model(inputs=inputs, outputs=outputs, name="brain_tumor_cnn"), learning_rate)
 
 
 def build_model(
