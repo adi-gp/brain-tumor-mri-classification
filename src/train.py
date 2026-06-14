@@ -30,7 +30,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--data-dir", default="data/processed", type=Path)
     parser.add_argument("--model-dir", default="models", type=Path)
     parser.add_argument("--results-dir", default="results", type=Path)
-    parser.add_argument("--model-name", choices=["cnn", "mobilenetv2"], default="cnn")
     parser.add_argument("--image-size", default=128, type=int)
     parser.add_argument("--batch-size", default=16, type=int)
     parser.add_argument("--epochs", default=25, type=int)
@@ -56,7 +55,6 @@ def main() -> None:
     ensure_dir(args.results_dir)
 
     model = build_model(
-        model_name=args.model_name,
         image_size=image_size,
         learning_rate=args.learning_rate,
         use_augmentation=not args.no_augmentation,
@@ -84,4 +82,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

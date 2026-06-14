@@ -1,27 +1,26 @@
 # Brain Tumor MRI Classification
 
-Binary brain MRI image classification using TensorFlow/Keras. This project turns an original Colab notebook into a reproducible machine learning repository with dataset preparation, CNN training, evaluation, single-image prediction, and a Gradio demo app.
+Beginner-friendly brain MRI image classification project using a Convolutional Neural Network (CNN) in TensorFlow/Keras.
 
-> This repository is for learning and portfolio demonstration only. It is not a medical diagnostic tool.
+The model classifies MRI images into two classes:
+
+- `no`: no tumor
+- `yes`: tumor
+
+> This is a learning project and is not a medical diagnostic tool.
 
 ## Project Summary
 
-The original notebook loaded MRI images from Google Drive, resized them to `128x128`, trained a binary CNN-style classifier, and tested predictions through a small Gradio app. This version keeps the same core idea but restructures it as a professional ML project:
+The original work was done in a Jupyter/Colab notebook. This repository keeps the same simple CNN idea, but organizes the code so it is easier for recruiters to read:
 
-- reusable preprocessing script for class-folder datasets
-- train/validation/test split creation
-- notebook-inspired CNN architecture
-- optional MobileNetV2 transfer-learning baseline
-- model checkpoints and training logs
-- evaluation metrics, confusion matrix, and ROC curve generation
-- command-line prediction and Gradio interface
+- dataset preprocessing
+- CNN model definition
+- training script
+- evaluation script
+- single-image prediction
+- simple Gradio demo app
 
-The code supports both folder conventions:
-
-- `data/raw/benign` and `data/raw/malignant`
-- `data/raw/no` and `data/raw/yes`
-
-Class names are inferred from folder names, so the trained model reports labels that match the dataset you provide.
+The project uses class folders, so labels are automatically taken from the folder names.
 
 ## Repository Structure
 
@@ -46,7 +45,6 @@ brain-tumor-mri-classification/
 │   ├── train.py
 │   └── utils.py
 ├── .gitignore
-├── LICENSE
 ├── README.md
 └── requirements.txt
 ```
@@ -61,7 +59,7 @@ pip install -r requirements.txt
 
 ## Dataset Format
 
-The original project used a two-class MRI dataset with the following class folders:
+The original dataset used this structure:
 
 ```text
 Brain_Tumor_Dataset/
@@ -108,16 +106,10 @@ Create reproducible train/validation/test splits:
 python -m src.data_preprocessing --raw-dir data/raw --output-dir data/processed
 ```
 
-Train the notebook-style CNN:
+Train the CNN:
 
 ```bash
-python -m src.train --model-name cnn --epochs 25 --batch-size 16
-```
-
-Train the transfer-learning baseline:
-
-```bash
-python -m src.train --model-name mobilenetv2 --epochs 15 --batch-size 16 --learning-rate 0.0001
+python -m src.train --epochs 25 --batch-size 16
 ```
 
 Evaluate on the held-out test split:
@@ -138,17 +130,16 @@ Launch the demo app:
 python app.py --model-path models/best_model.keras
 ```
 
-## Model
+## CNN Model
 
-The default CNN follows the original notebook architecture while fixing production issues:
+The CNN is based on the original notebook:
 
 - image normalization is inside the model through a `Rescaling` layer
-- data augmentation is applied only during training
 - convolution blocks use batch normalization, max pooling, and dropout
-- final layer uses sigmoid activation for binary classification
+- final layer uses sigmoid activation for binary tumor/no-tumor classification
 - training uses binary cross-entropy and Adam optimizer
 
-An optional MobileNetV2 transfer-learning model is included for small datasets where a pretrained image backbone can improve generalization.
+Small data augmentation is included during training to help the model generalize better.
 
 ## Evaluation
 
@@ -158,7 +149,7 @@ Running `src.evaluate` writes the following artifacts to `results/`:
 - `confusion_matrix.png`
 - `roc_curve.png`
 
-Because the original trained weights and dataset are not included, this repository does not hard-code an accuracy claim. Train the model on your dataset, run evaluation, then update this section and your resume with the generated test accuracy.
+Because trained weights are not included, this repository does not hard-code an accuracy claim. Train the model on the dataset, run evaluation, and then use the generated metrics from `results/metrics.json`.
 
 ## Resume Alignment
 
@@ -166,11 +157,11 @@ Suggested resume wording after you train and evaluate this repo:
 
 ```text
 Brain Tumor MRI Classification — Medical Image Classification
-Python • TensorFlow/Keras • CNN • Transfer Learning
+Python • TensorFlow/Keras • CNN
 
-- Built a reproducible MRI image classification pipeline with preprocessing, train/validation/test splits, CNN training, and test-set evaluation.
-- Implemented a custom CNN and MobileNetV2 transfer-learning baseline, generating confusion matrix, ROC curve, and classification metrics.
-- Deployed a Gradio demo for single-image inference using the trained Keras model.
+- Built a CNN-based MRI image classifier to detect tumor vs no-tumor images.
+- Added preprocessing, train/validation/test split creation, model training, and test evaluation scripts.
+- Created a simple Gradio demo for single-image prediction.
 ```
 
 Replace the final bullet or add the measured test accuracy only after `results/metrics.json` is generated.
